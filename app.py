@@ -1,7 +1,13 @@
+from glob import glob
 import requests
 
 GITHUB_API = "https://api.github.com"
 headers = {"X-GitHub-Api-Version" : "2022-11-28"}
+output_directory = "./output"
+
+def get_files(src_directory):
+    files = glob(src_directory + "/*.md")
+    return files
 
 def get(path):
     r = requests.get(GITHUB_API + path, headers=headers)
@@ -11,19 +17,18 @@ def check_repo(repo):
     r = get("/repos/" + repo)
     return r
 
-token = input("Please input your token for access: ")    
-headers["Authorization"] = "Bearer " + token
-check_auth = get("/user")
-if not check_auth.ok:
-    exit("Error on authenticating, please check token")
-else :
-    username = check_auth.json()["login"]
-    print(f"Logged in as {username}")
-    
-while True:
-    repo = input("Please specify the repo you would like to work on: ")
-    res = check_repo(repo)
-    if not res.ok :
-        print(res.status_code)
+def authenticate():
+    token = input("Please input your token for access: ")
+    headers["Authorization"] = "Bearer " + token
+    check_auth = get("/user")
+    if not check_auth.ok:
+        exit("Error on authenticating, please check token")
     else :
-        print(res.json()["permissions"])
+        username = check_auth.json()["login"]
+        print(f"Logged in as {username}")
+
+if __name__ == "__main__":
+    files = get_files('src')
+    for each_file in files:
+        handler = open(each_file, "r")
+        content = handler.read()
