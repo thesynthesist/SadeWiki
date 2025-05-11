@@ -1,4 +1,5 @@
 import json
+import time
 from glob import glob
 import requests
 
@@ -6,16 +7,32 @@ GITHUB_API = "https://api.github.com"
 headers = {"X-GitHub-Api-Version" : "2022-11-28"}
 output_directory = "./output"
 
+def check_status(response):
+    response_headers = response.headers
+    print(response_headers)
+    if response_headers["x-ratelimit-remaining"] == '0':
+        print("Rate limit hit, waiting to avoid ban...")
+        ratelimit_reset = response_headers["x-ratelimit-reset"]
+        current_time = time.time()
+        wait_time = int(ratelimit_reset) - int(current_time)
+        print(f"Rate limit hit, will resume in {wait_time} seconds...")
+        time.sleep(wait_time)
+        # TODO: This works, but the lack of output makes it a bit annoying. Could do with a loop to output current wait time
+    elif not response.ok:
+        exit(f"Request failed with status code: {response.status_code}")
+
 def get_files(src_directory):
     files = glob(src_directory + "/*.md")
     return files
 
 def get(path):
     r = requests.get(GITHUB_API + path, headers=headers)
+    check_status(r)
     return r
 
 def post(path, data):
     r = requests.post(GITHUB_API + path, headers=headers, data=data)
+    check_status(r)
     return r
 
 def get_html(markdown):
