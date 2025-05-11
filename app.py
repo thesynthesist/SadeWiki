@@ -1,3 +1,4 @@
+import json
 from glob import glob
 import requests
 
@@ -12,6 +13,15 @@ def get_files(src_directory):
 def get(path):
     r = requests.get(GITHUB_API + path, headers=headers)
     return r
+
+def post(path, data):
+    r = requests.post(GITHUB_API + path, headers=headers, data=data)
+    return r
+
+def get_html(markdown):
+    content_json = {"text": markdown}
+    r = post("/markdown", data=json.dumps(content_json))
+    return r.text
 
 def check_repo(repo):
     r = get("/repos/" + repo)
@@ -32,3 +42,4 @@ if __name__ == "__main__":
     for each_file in files:
         handler = open(each_file, "r")
         content = handler.read()
+        html = get_html(content)
