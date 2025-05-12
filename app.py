@@ -1,11 +1,19 @@
 import json
+import os
 import time
+import shutil
 from glob import glob
 import requests
 
 GITHUB_API = "https://api.github.com"
 headers = {"X-GitHub-Api-Version" : "2022-11-28"}
-output_directory = "./output"
+output_directory = "output"
+css_file = "styles.css"
+
+if not os.path.exists(output_directory):
+    os.mkdir(output_directory)
+
+shutil.copy(css_file, output_directory + "/" + css_file)
 
 def check_status(response):
     response_headers = response.headers
@@ -53,9 +61,16 @@ def authenticate():
         username = check_auth.json()["login"]
         print(f"Logged in as {username}")
 
+src_directory = 'src'
+
 if __name__ == "__main__":
-    files = get_files('src')
+    files = get_files(src_directory)
     for each_file in files:
         handler = open(each_file, "r")
         content = handler.read()
         html = get_html(content)
+        output_file = each_file.replace(".md", ".html")
+        output_file = output_directory + output_file[len(src_directory):]
+        with open(output_file, "w") as f:
+            f.write(f'<link rel="stylesheet" href="{css_file}">\n')
+            f.write(html)
