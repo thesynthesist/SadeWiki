@@ -9,7 +9,6 @@ output_directory = "./output"
 
 def check_status(response):
     response_headers = response.headers
-    print(response_headers)
     if response_headers["x-ratelimit-remaining"] == '0':
         print("Rate limit hit, waiting to avoid ban...")
         ratelimit_reset = response_headers["x-ratelimit-reset"]
