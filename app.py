@@ -18,6 +18,12 @@ if not os.path.exists(output_directory):
 shutil.copy(css_file, output_directory + "/" + css_file)
 
 def check_status(response):
+    """
+    When a response is passed to this, this function will ensure the request is checked for any potential issues.
+    A rate limit header reaching 0 will cause the code to pause for the required period. And any non 200 status code will cause the code to exit
+    :param response:
+    :return None:
+    """
     response_headers = response.headers
     if response_headers["x-ratelimit-remaining"] == '0':
         print("Rate limit hit, waiting to avoid ban...")
@@ -31,25 +37,50 @@ def check_status(response):
         exit(f"Request failed with status code: {response.status_code}")
 
 def get_files(src_directory):
+    """
+    Get markdown files from the source directory
+    :param src_directory:
+    :return List of filenames as strings:
+    """
     files = glob(src_directory + "/*.md")
     return files
 
 def get(path):
+    """
+    Makes a GET request to the given path using the API headers
+    :param path:
+    :return response object:
+    """
     r = requests.get(GITHUB_API + path, headers=headers)
     check_status(r)
     return r
 
 def post(path, data):
+    """
+    Makes a POST request to the given path using the API headers and data. JSON data must be formatted using json.dumps
+    :param path:
+    :param data:
+    :return response object:
+    """
     r = requests.post(GITHUB_API + path, headers=headers, data=data)
     check_status(r)
     return r
 
 def get_html(markdown):
+    """
+    Makes a request to the Github API to change markdown into HTML
+    :param markdown:
+    :return HTML as string:
+    """
     content_json = {"text": markdown}
     r = post("/markdown", data=json.dumps(content_json))
     return r.text
 
 def authenticate():
+    """
+    Prompts the user for a token and exits if token is not correct
+    :return:
+    """
     token = input("Please input your token for access: ")
     headers["Authorization"] = "Bearer " + token
     check_auth = get("/user")
