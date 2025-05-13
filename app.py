@@ -49,10 +49,6 @@ def get_html(markdown):
     r = post("/markdown", data=json.dumps(content_json))
     return r.text
 
-def check_repo(repo):
-    r = get("/repos/" + repo)
-    return r
-
 def authenticate():
     token = input("Please input your token for access: ")
     headers["Authorization"] = "Bearer " + token
