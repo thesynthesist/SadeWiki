@@ -4,6 +4,8 @@ import time
 import shutil
 from glob import glob
 import requests
+import http.server
+import socketserver
 
 GITHUB_API = "https://api.github.com"
 headers = {"X-GitHub-Api-Version" : "2022-11-28"}
@@ -74,3 +76,17 @@ if __name__ == "__main__":
         with open(output_file, "w") as f:
             f.write(f'<link rel="stylesheet" href="{css_file}">\n')
             f.write(html)
+    print("Done!")
+    PORT = 8000
+    handler = http.server.SimpleHTTPRequestHandler
+    os.chdir(output_directory)
+    with socketserver.TCPServer(("", PORT), handler) as httpd:
+        # TODO: Make this server port and address dynamic
+        print(f"Serving at http://{httpd.server_address[0]}:{httpd.server_address[1]}/")
+        print("Press Ctrl+C to exit")
+        try :
+            httpd.serve_forever()
+        except KeyboardInterrupt:
+            print("Keyboard interrupt received, exiting...")
+            httpd.server_close()
+            exit(0)
