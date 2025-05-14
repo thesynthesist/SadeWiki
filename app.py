@@ -10,13 +10,6 @@ import classes
 
 GITHUB_API = "https://api.github.com"
 headers = {"X-GitHub-Api-Version" : "2022-11-28"}
-output_directory = "output"
-css_file = "styles.css"
-
-if not os.path.exists(output_directory):
-    os.mkdir(output_directory)
-
-shutil.copy(css_file, output_directory + "/" + css_file)
 
 def check_status(response):
     """
@@ -90,13 +83,20 @@ def authenticate(token):
         user_object = check_auth.json()
         return user_object
 
-src_directory = 'src'
-
 if __name__ == "__main__":
+    src_directory = os.environ["SADE_SOURCE"]
+    output_directory = os.environ["SADE_OUTPUT"]
+    css_file = os.environ["SADE_STYLES"]
+    token = os.environ["SADE_GH_TOKEN"]
+
     files = get_files(src_directory)
     print(f"Found {len(files)} markdown files to process")
-    token = input("Please enter your GitHub token: ")
     auth = authenticate(token)
+
+    if not os.path.exists(output_directory):
+        os.mkdir(output_directory)
+    shutil.copy(css_file, output_directory + "/" + css_file)
+
     for each_file in files:
         handler = open(each_file, "r")
         content = handler.read()
