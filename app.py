@@ -6,6 +6,7 @@ from glob import glob
 import requests
 import http.server
 import socketserver
+import classes
 
 GITHUB_API = "https://api.github.com"
 headers = {"X-GitHub-Api-Version" : "2022-11-28"}
@@ -76,24 +77,26 @@ def get_html(markdown):
     r = post("/markdown", data=json.dumps(content_json))
     return r.text
 
-def authenticate():
+def authenticate(token):
     """
     Prompts the user for a token and exits if token is not correct
-    :return:
+    :return user object:
     """
-    token = input("Please input your token for access: ")
     headers["Authorization"] = "Bearer " + token
     check_auth = get("/user")
     if not check_auth.ok:
-        exit("Error on authenticating, please check token")
+        raise classes.InvalidToken(f"Error on authenticating, please check token. Status code: {check_auth.status_code} returned")
     else :
-        username = check_auth.json()["login"]
-        print(f"Logged in as {username}")
+        user_object = check_auth.json()
+        return user_object
 
 src_directory = 'src'
 
 if __name__ == "__main__":
     files = get_files(src_directory)
+    print(f"Found {len(files)} markdown files to process")
+    token = input("Please enter your GitHub token: ")
+    auth = authenticate(token)
     for each_file in files:
         handler = open(each_file, "r")
         content = handler.read()
