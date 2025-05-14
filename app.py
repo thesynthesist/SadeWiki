@@ -28,7 +28,7 @@ def check_status(response):
         time.sleep(wait_time)
         # TODO: This works, but the lack of output makes it a bit annoying. Could do with a loop to output current wait time
     elif not response.ok:
-        exit(f"Request failed with status code: {response.status_code}")
+        raise classes.GitHubApiError(f"{response.status_code} {response.reason} returned on {response.request.method} request {response.url} - View GitHub REST API docs for more guidance")
 
 def get_files(src_directory):
     """
