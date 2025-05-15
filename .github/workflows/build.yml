@@ -9,9 +9,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Set up Python
-        # This is the version of the action for setting up Python, not the Python version.
         uses: actions/setup-python@v5
       - name: Display Python version
         run: python -c "import sys; print(sys.version)"
       - name: Install pip packages
         run: pip install -r requirements.txt
+      - name: Confirm failure
+        run: python -c "pitnt("syntax error")"
