@@ -109,10 +109,9 @@ if __name__ == "__main__":
     print("Done!")
     PORT = 8000
     handler = http.server.SimpleHTTPRequestHandler
-    os.chdir(output_directory)
     with socketserver.TCPServer(("", PORT), handler) as httpd:
         # TODO: Make this server port and address dynamic
-        print(f"Serving at http://{httpd.server_address[0]}:{httpd.server_address[1]}/")
+        print(f"Serving at http://{httpd.server_address[0]}:{httpd.server_address[1]}/{output_directory}/")
         print("Press Ctrl+C to exit")
         try :
             httpd.serve_forever()
