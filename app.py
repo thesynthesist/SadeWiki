@@ -30,13 +30,13 @@ def check_status(response):
     elif not response.ok:
         raise classes.GitHubApiError(f"{response.status_code} {response.reason} returned on {response.request.method} request {response.url} - View GitHub REST API docs for more guidance")
 
-def get_files(src_directory):
+def get_files():
     """
     Get markdown files from the source directory
-    :param src_directory:
     :return List of filenames as strings:
     """
-    files = glob(src_directory + "/*.md")
+    files = glob("*.md")
+    #files = glob("*/*.md") # TODO: Make recursive files work correctly, right now it fails on write
     return files
 
 def get(path):
@@ -84,12 +84,11 @@ def authenticate(token):
         return user_object
 
 if __name__ == "__main__":
-    src_directory = os.environ["SADE_SOURCE"]
-    output_directory = os.environ["SADE_OUTPUT"]
     css_file = os.environ["SADE_STYLES"]
     token = os.environ["SADE_GH_TOKEN"]
+    output_directory = "docs"
 
-    files = get_files(src_directory)
+    files = get_files()
     print(f"Found {len(files)} markdown files to process")
     auth = authenticate(token)
 
@@ -104,7 +103,7 @@ if __name__ == "__main__":
         content = handler.read()
         html = get_html(content)
         output_file = each_file.replace(".md", ".html")
-        output_file = output_directory + output_file[len(src_directory):]
+        output_file = output_directory + "/" + output_file
         index.append(output_file)
         with open(output_file, "w") as f:
             f.write(f'<link rel="stylesheet" href="{css_file}">\n')
