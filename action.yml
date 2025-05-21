@@ -1,7 +1,7 @@
 name: Python package
 on: [push]
 runs:
-  runs-on: ubuntu-latest
+  using: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - name: Set up Python
