@@ -84,13 +84,13 @@ def authenticate(token):
         return user_object
 
 if __name__ == "__main__":
-    css_file = os.environ["SADE_STYLES"]
-    token = os.environ["SADE_GH_TOKEN"]
+    css_file = "styles.css"
+    #token = os.environ["SADE_GH_TOKEN"]
     output_directory = "docs"
 
     files = get_files()
     print(f"Found {len(files)} markdown files to process")
-    auth = authenticate(token)
+    #auth = authenticate(token)
 
     if not os.path.exists(output_directory):
         os.mkdir(output_directory)
@@ -118,6 +118,7 @@ if __name__ == "__main__":
 
     print("Done!")
     PORT = 8000
+    """
     handler = http.server.SimpleHTTPRequestHandler
     with socketserver.TCPServer(("", PORT), handler) as httpd:
         # TODO: Make this server port and address dynamic
@@ -129,3 +130,4 @@ if __name__ == "__main__":
             print("Keyboard interrupt received, exiting...")
             httpd.server_close()
             exit(0)
+    """

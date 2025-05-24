@@ -1,19 +1,12 @@
-FROM conda/miniconda3:latest
+FROM python:3.12.10-bullseye
 
-WORKDIR /home
+WORKDIR /github/workspace
 
-COPY conda.conf ./conda.conf
 COPY app.py ./app.py
 COPY classes.py ./classes.py
 COPY requirements.txt ./requirements.txt
+COPY styles.css ./styles.css
 
-RUN conda create --name v1 --file conda.conf
-
-SHELL ["/bin/bash", "-c"]
-
-RUN conda init
-RUN source ~/.bashrc
-RUN conda activate v1
 RUN pip install -r requirements.txt
 
 ENTRYPOINT ["python3", "app.py"]
