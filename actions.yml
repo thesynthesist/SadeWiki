@@ -3,5 +3,3 @@ description: 'Generate wiki files'
 runs:
   using: 'docker'
   image: 'Dockerfile'
-  args:
-    - ${{ inputs.who-to-greet }}
