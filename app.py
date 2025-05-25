@@ -86,7 +86,7 @@ def authenticate(token):
 if __name__ == "__main__":
     css_file = "/styles.css"
     #token = os.environ["SADE_GH_TOKEN"]
-    output_directory = os.environ["GITHUB_WORKSPACE"] + "docs"
+    output_directory = "/docs"
 
     files = get_files()
     print(f"Found {len(files)} markdown files to process")
