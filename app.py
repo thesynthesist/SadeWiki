@@ -84,7 +84,7 @@ def authenticate(token):
         return user_object
 
 if __name__ == "__main__":
-    css_file = "styles.css"
+    css_file = "/styles.css"
     #token = os.environ["SADE_GH_TOKEN"]
     output_directory = os.environ["GITHUB_WORKSPACE"] + "docs"
 
