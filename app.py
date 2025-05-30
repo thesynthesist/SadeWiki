@@ -84,7 +84,7 @@ def authenticate(token):
         return user_object
 
 if __name__ == "__main__":
-    css_file = "/styles.css"
+    css_file = "styles.css"
     #token = os.environ["SADE_GH_TOKEN"]
     output_directory = os.environ["GITHUB_WORKSPACE"] + "/docs"
     files = get_files()
@@ -102,17 +102,16 @@ if __name__ == "__main__":
         content = handler.read()
         html = get_html(content)
         output_file = each_file.replace(".md", ".html")
-        output_file = output_directory + "/" + output_file
         index.append(output_file)
         with open(output_file, "w") as f:
-            f.write(f'<link rel="stylesheet" href="../{css_file}">\n') # TODO: This should use an absolute URL
+            f.write(f'<link rel="stylesheet" href="{css_file}">\n') # TODO: This should use an absolute URL
             f.write(html)
 
     with open(output_directory + "/index.html", "w") as index_file:
-        index_file.write(f'<link rel="stylesheet" href="./{css_file}">\n') # TODO: This should use an absolute URL
+        index_file.write(f'<link rel="stylesheet" href="{css_file}">\n') # TODO: This should use an absolute URL
         index_file.write("<ul>\n")
         for link in index :
-            index_file.write(f"<li><a href='./{link}'>{link}</a></li>\n") # TODO: This should use an absolute URL
+            index_file.write(f"<li><a href='{link}'>{link}</a></li>\n") # TODO: This should use an absolute URL
         index_file.write("</ul>\n")
 
     print("Done!")
