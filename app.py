@@ -93,7 +93,7 @@ if __name__ == "__main__":
 
     if not os.path.exists(output_directory):
         os.mkdir(output_directory)
-    shutil.copy(css_file, output_directory + "/" + css_file)
+    shutil.copy("/" + css_file, output_directory + "/" + css_file)
 
     index = []
 
