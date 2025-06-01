@@ -103,7 +103,7 @@ if __name__ == "__main__":
         html = get_html(content)
         output_file = each_file.replace(".md", ".html")
         index.append(output_file)
-        with open(output_file, "w") as f:
+        with open(output_directory + "/" + output_file, "w") as f:
             f.write(f'<link rel="stylesheet" href="{css_file}">\n') # TODO: This should use an absolute URL
             f.write(html)
 
