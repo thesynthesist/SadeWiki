@@ -84,17 +84,16 @@ def authenticate(token):
         return user_object
 
 if __name__ == "__main__":
-    css_file = os.environ["SADE_STYLES"]
-    token = os.environ["SADE_GH_TOKEN"]
-    output_directory = "docs"
-
+    css_file = "styles.css"
+    #token = os.environ["SADE_GH_TOKEN"]
+    output_directory = os.environ["GITHUB_WORKSPACE"] + "/docs"
     files = get_files()
     print(f"Found {len(files)} markdown files to process")
-    auth = authenticate(token)
+    #auth = authenticate(token)
 
     if not os.path.exists(output_directory):
         os.mkdir(output_directory)
-    shutil.copy(css_file, output_directory + "/" + css_file)
+    shutil.copy("/" + css_file, output_directory + "/" + css_file)
 
     index = []
 
@@ -103,21 +102,21 @@ if __name__ == "__main__":
         content = handler.read()
         html = get_html(content)
         output_file = each_file.replace(".md", ".html")
-        output_file = output_directory + "/" + output_file
         index.append(output_file)
-        with open(output_file, "w") as f:
-            f.write(f'<link rel="stylesheet" href="{css_file}">\n')
+        with open(output_directory + "/" + output_file, "w") as f:
+            f.write(f'<link rel="stylesheet" href="{css_file}">\n') # TODO: This should use an absolute URL
             f.write(html)
 
     with open(output_directory + "/index.html", "w") as index_file:
-        index_file.write(f'<link rel="stylesheet" href="{css_file}">\n')
+        index_file.write(f'<link rel="stylesheet" href="{css_file}">\n') # TODO: This should use an absolute URL
         index_file.write("<ul>\n")
         for link in index :
-            index_file.write(f"<li><a href='/{link}'>{link}</a></li>\n")
+            index_file.write(f"<li><a href='{link}'>{link}</a></li>\n") # TODO: This should use an absolute URL
         index_file.write("</ul>\n")
 
     print("Done!")
     PORT = 8000
+    """
     handler = http.server.SimpleHTTPRequestHandler
     with socketserver.TCPServer(("", PORT), handler) as httpd:
         # TODO: Make this server port and address dynamic
@@ -129,3 +128,4 @@ if __name__ == "__main__":
             print("Keyboard interrupt received, exiting...")
             httpd.server_close()
             exit(0)
+    """
