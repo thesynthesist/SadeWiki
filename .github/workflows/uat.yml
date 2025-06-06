@@ -25,4 +25,4 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - name: Send curl request
-        run: curl --fail-with-body -L -X POST -H "$accept" -H "$authorisation Bearer {{ GITHUB_TOKEN }}" "Authorization:%20Bearer {{ GITHUB_TOKEN }}" -H "$api_version"  https://api.github.com/repos/hinkleydev/sade-ci/actions/workflows/build.yml/dispatches -d '{"ref":"main"}'
+        run: curl --fail-with-body -L -X POST -H "$accept" -H "$authorisation Bearer {{ GITHUB_TOKEN }}" -H "$api_version"  https://api.github.com/repos/hinkleydev/sade-ci/actions/workflows/build.yml/dispatches -d '{"ref":"main"}'
