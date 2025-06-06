@@ -9,6 +9,7 @@ import socketserver
 import classes
 
 GITHUB_API = "https://api.github.com"
+REPO = os.environ["GITHUB_REPOSITORY"]
 headers = {"X-GitHub-Api-Version" : "2022-11-28"}
 
 def check_status(response):
@@ -66,7 +67,7 @@ def get_html(markdown):
     :param markdown:
     :return HTML as string:
     """
-    content_json = {"text": markdown}
+    content_json = {"text": markdown, "context": REPO}
     r = post("/markdown", data=json.dumps(content_json))
     return r.text
 
