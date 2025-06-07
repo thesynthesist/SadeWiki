@@ -67,7 +67,7 @@ def get_html(markdown):
     :param markdown:
     :return HTML as string:
     """
-    content_json = {"text": markdown, "context": REPO}
+    content_json = {"text": markdown, "context": REPO, "mode": "gfm"}
     r = post("/markdown", data=json.dumps(content_json))
     return r.text
 
