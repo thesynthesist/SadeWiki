@@ -115,7 +115,7 @@ if __name__ == "__main__":
         for link in index :
             index_file.write(f"<li><a href='{link}'>{link}</a></li>\n") # TODO: This should use an absolute URL
         index_file.write("</ul>\n")
-        f.write(f'<a href="https://github.com/{REPO}/new/main">Add new page</a>')
+        index_file.write(f'<a href="https://github.com/{REPO}/new/main">Add new page</a>')
 
     print("Done!")
     PORT = 8000
