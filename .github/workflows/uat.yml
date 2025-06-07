@@ -14,9 +14,6 @@ jobs:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
-    permissions:
-      actions: write
-
     env: 
         accept: "Accept: application/vnd.github+json"
         authorisation: "Authorization: Bearer"
@@ -25,4 +22,4 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - name: Send curl request
-        run: curl --fail-with-body -L -X POST -H "$accept" -H "$authorisation {{ GITHUB_TOKEN }}" -H "$api_version"  https://api.github.com/repos/hinkleydev/sade-ci/actions/workflows/build.yml/dispatches -d '{"ref":"main"}'
+        run: curl --fail-with-body -L -X POST -H "$accept" -H "$authorisation {{ secrets.CI_TOKEN }}" -H "$api_version"  https://api.github.com/repos/hinkleydev/sade-ci/actions/workflows/build.yml/dispatches -d '{"ref":"main"}'
