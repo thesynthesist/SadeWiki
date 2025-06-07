@@ -106,7 +106,8 @@ if __name__ == "__main__":
         index.append(output_file)
         with open(output_directory + "/" + output_file, "w") as f:
             f.write(f'<link rel="stylesheet" href="{css_file}">\n') # TODO: This should use an absolute URL
-            f.write(html)
+            f.write(html + '\n')
+            f.write(f'<a href="https://github.com/{REPO}/new/main">Add new page</a>')
 
     with open(output_directory + "/index.html", "w") as index_file:
         index_file.write(f'<link rel="stylesheet" href="{css_file}">\n') # TODO: This should use an absolute URL
@@ -114,6 +115,7 @@ if __name__ == "__main__":
         for link in index :
             index_file.write(f"<li><a href='{link}'>{link}</a></li>\n") # TODO: This should use an absolute URL
         index_file.write("</ul>\n")
+        f.write(f'<a href="https://github.com/{REPO}/new/main">Add new page</a>')
 
     print("Done!")
     PORT = 8000
