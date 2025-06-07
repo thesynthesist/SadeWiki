@@ -19,7 +19,7 @@ jobs:
 
     env: 
         accept: "Accept: application/vnd.github+json"
-        authorisation: "Authorization: "
+        authorisation: "Authorization-fake: "
         api_version: "X-GitHub-Api-Version: 2022-11-28"
 
     # Steps represent a sequence of tasks that will be executed as part of the job
