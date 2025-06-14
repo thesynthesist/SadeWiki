@@ -110,7 +110,7 @@ if __name__ == "__main__":
             f.write(html + '\n')
             f.write(f'<a href="https://github.com/{REPO}/new/{BRANCH}">Add new page</a>')
             f.write("<br>")
-            f.write(f'<a href="https://github.com/{REPO}/edit/{BRANCH}/{each_file}">Add new page</a>')
+            f.write(f'<a href="https://github.com/{REPO}/edit/{BRANCH}/{each_file}">Edit this page</a>')
 
     with open(output_directory + "/index.html", "w") as index_file:
         index_file.write(f'<link rel="stylesheet" href="{css_file}">\n') # TODO: This should use an absolute URL
