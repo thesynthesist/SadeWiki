@@ -10,6 +10,7 @@ import classes
 
 GITHUB_API = "https://api.github.com"
 REPO = os.environ["GITHUB_REPOSITORY"]
+BRANCH = "main" # TODO : Make this dynamic based on the branch deployed from
 headers = {"X-GitHub-Api-Version" : "2022-11-28"}
 
 def check_status(response):
@@ -107,7 +108,9 @@ if __name__ == "__main__":
         with open(output_directory + "/" + output_file, "w") as f:
             f.write(f'<link rel="stylesheet" href="{css_file}">\n') # TODO: This should use an absolute URL
             f.write(html + '\n')
-            f.write(f'<a href="https://github.com/{REPO}/new/main">Add new page</a>')
+            f.write(f'<a href="https://github.com/{REPO}/new/{BRANCH}">Add new page</a>')
+            f.write("<br>")
+            f.write(f'<a href="https://github.com/{REPO}/edit/{BRANCH}/{each_file}">Edit this page</a>')
 
     with open(output_directory + "/index.html", "w") as index_file:
         index_file.write(f'<link rel="stylesheet" href="{css_file}">\n') # TODO: This should use an absolute URL
@@ -115,7 +118,7 @@ if __name__ == "__main__":
         for link in index :
             index_file.write(f"<li><a href='{link}'>{link}</a></li>\n") # TODO: This should use an absolute URL
         index_file.write("</ul>\n")
-        index_file.write(f'<a href="https://github.com/{REPO}/new/main">Add new page</a>')
+        index_file.write(f'<a href="https://github.com/{REPO}/new/{BRANCH}">Add new page</a>')
 
     print("Done!")
     PORT = 8000
