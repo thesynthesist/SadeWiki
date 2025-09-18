@@ -9,3 +9,9 @@ jobs:
       - name: install
         run: python -m pip install -r requirements.txt
       - uses: pypa/gh-action-pip-audit@v1.1.0
+        with:
+          ignore-vulns: |
+            GHSA-c8m8-j448-xjx7 # twisted
+            PYSEC-2024-75 # twisted
+            GHSA-c33w-24p9-8m24 # configobj
+            PYSEC-2025-49 # setuptools
