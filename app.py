@@ -106,6 +106,7 @@ if __name__ == "__main__":
         output_file = each_file.replace(".md", ".html")
         index.append(output_file)
         with open(output_directory + "/" + output_file, "w") as f:
+            f.write('<meta name="viewport" content="width=device-width, initial-scale=1.0" />')
             f.write(f'<link rel="stylesheet" href="{css_file}">\n') # TODO: This should use an absolute URL
             f.write(html + '\n')
             f.write(f'<a href="https://github.com/{REPO}/new/{BRANCH}">Add new page</a>')
@@ -113,6 +114,7 @@ if __name__ == "__main__":
             f.write(f'<a href="https://github.com/{REPO}/edit/{BRANCH}/{each_file}">Edit this page</a>')
 
     with open(output_directory + "/index.html", "w") as index_file:
+        index_file.write('<meta name="viewport" content="width=device-width, initial-scale=1.0" />')
         index_file.write(f'<link rel="stylesheet" href="{css_file}">\n') # TODO: This should use an absolute URL
         index_file.write("<ul>\n")
         for link in index :
