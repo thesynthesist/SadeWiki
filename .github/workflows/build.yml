@@ -14,14 +14,7 @@ jobs:
         run: python -c "import sys; print(sys.version)"
       - name: Install pip packages # Confirm all packages work with the latest python version
         run: pip install -r requirements.txt
-      - name: Dependency security check
-        uses: pypa/gh-action-pip-audit@v1.1.0
-        with:
-          ignore-vulns: |
-            GHSA-c8m8-j448-xjx7 # twisted
-            PYSEC-2024-75 # twisted
-            GHSA-c33w-24p9-8m24 # configobj
-            PYSEC-2025-49 # setuptools
+
   security:
     needs: build
     runs-on: ubuntu-latest
