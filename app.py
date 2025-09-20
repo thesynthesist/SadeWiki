@@ -7,6 +7,7 @@ import requests
 import http.server
 import socketserver
 import classes
+from bs4 import BeautifulSoup
 
 GITHUB_API = "https://api.github.com"
 REPO = os.environ["GITHUB_REPOSITORY"]
@@ -103,9 +104,15 @@ if __name__ == "__main__":
         handler = open(each_file, "r")
         content = handler.read()
         html = get_html(content)
+        soup = BeautifulSoup(html, 'html.parser')
+        titles = soup.find_all("h1")
+        title = ""
+        if len(titles) > 0: # if there is a H1, set it as a title
+            title = "<title>" + titles[0].string + "</title>\n"
         output_file = each_file.replace(".md", ".html")
         index.append(output_file)
         with open(output_directory + "/" + output_file, "w") as f:
+            f.write(title)
             f.write('<meta name="viewport" content="width=device-width, initial-scale=1.0" />')
             f.write(f'<link rel="stylesheet" href="{css_file}">\n') # TODO: This should use an absolute URL
             f.write(html + '\n')
